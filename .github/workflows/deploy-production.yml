@@ -1,0 +1,82 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+      - prod
+
+jobs:
+  deploy:
+    name: Deploy to Production Server
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://prod.yourdomain.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.PROD_SSH_KEY }}
+
+      - name: Add server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.PROD_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Production
+        env:
+          PROD_HOST: ${{ secrets.PROD_HOST }}
+          PROD_USER: ${{ secrets.PROD_USER }}
+          PROD_DEPLOY_PATH: ${{ secrets.PROD_DEPLOY_PATH }}
+        run: |
+          echo "🚀 Deploying to production server..."
+
+          # Copy files to server
+          rsync -avz --delete \
+            --exclude 'node_modules' \
+            --exclude '.git' \
+            --exclude '.env*' \
+            ./ $PROD_USER@$PROD_HOST:$PROD_DEPLOY_PATH/
+
+          # Execute deployment on server
+          ssh $PROD_USER@$PROD_HOST << 'EOF'
+            cd $PROD_DEPLOY_PATH
+
+            # Install dependencies
+            npm install --production
+
+            # Run deployment script
+            npm run deploy:prod
+          EOF
+
+      - name: Notify deployment status
+        if: always()
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "✅ Deployment to PRODUCTION completed successfully"
+          else
+            echo "❌ Deployment to PRODUCTION failed"
+            exit 1
+          fi
+
+      - name: Create deployment tag
+        if: success()
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          TAG_NAME="prod-$(date +%Y%m%d-%H%M%S)"
+          git tag -a $TAG_NAME -m "Production deployment $TAG_NAME"
+          git push origin $TAG_NAME

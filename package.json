@@ -1,0 +1,40 @@
+{
+  "name": "n8n-supabase-deployment",
+  "version": "1.0.0",
+  "description": "Multi-environment deployment system for n8n and Supabase",
+  "main": "index.js",
+  "scripts": {
+    "extract:dev": "tsx scripts/extract/index.ts",
+    "extract:supabase": "tsx scripts/extract/extract-supabase.ts",
+    "extract:n8n": "tsx scripts/extract/extract-n8n.ts",
+    "deploy:staging": "tsx scripts/deploy/index.ts staging",
+    "deploy:prod": "tsx scripts/deploy/index.ts production",
+    "deploy:supabase": "tsx scripts/deploy/deploy-supabase.ts",
+    "deploy:n8n": "tsx scripts/deploy/deploy-n8n.ts",
+    "healthcheck:dev": "tsx scripts/healthcheck.ts dev",
+    "healthcheck:staging": "tsx scripts/healthcheck.ts staging",
+    "healthcheck:prod": "tsx scripts/healthcheck.ts production",
+    "webhook:staging": "DEPLOY_BRANCH=staging tsx scripts/webhook-server.ts",
+    "webhook:prod": "DEPLOY_BRANCH=main tsx scripts/webhook-server.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "n8n",
+    "supabase",
+    "deployment",
+    "ci-cd"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.5",
+    "dotenv": "^16.3.1",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

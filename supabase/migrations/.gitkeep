@@ -1,0 +1,22 @@
+# Supabase Migrations
+
+Questa cartella contiene le migration SQL estratte da Supabase Cloud.
+
+Le migrations vengono create automaticamente quando esegui:
+```bash
+npm run extract:supabase
+```
+
+## Formato File
+
+I file di migration seguono questo formato:
+- Nome: `YYYY-MM-DD_description.sql`
+- Esempio: `2024-01-15_create_users_table.sql`
+
+## Ordine di Applicazione
+
+Le migrations vengono applicate in ordine alfabetico (quindi cronologico).
+
+## Migration Tracking
+
+Il sistema tiene traccia delle migrations applicate nella tabella `_migrations` del database.

@@ -1,0 +1,27 @@
+# n8n Workflows
+
+Questa cartella contiene i workflow n8n estratti da n8n Cloud.
+
+I workflows vengono scaricati automaticamente quando esegui:
+```bash
+npm run extract:n8n
+```
+
+## Formato File
+
+- Nome: `workflow_name_workflowid.json`
+- Esempio: `customer_notifications_abc123.json`
+
+## Manifest
+
+Il file `manifest.json` contiene i metadati di tutti i workflows estratti:
+- Data di estrazione
+- Lista workflows con ID, nome, stato attivo/inattivo
+- Tag associati
+
+## Importazione
+
+Durante il deployment, i workflows vengono:
+- Creati se non esistono (basandosi sul nome)
+- Aggiornati se esistono già
+- Preservano l'ID originale quando possibile
