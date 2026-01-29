@@ -335,6 +335,7 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
+      - ./volumes/db/00-create-users.sql:/docker-entrypoint-initdb.d/init-scripts/00-create-users.sql:Z
       - ./volumes/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:Z
       - ./volumes/db/webhooks.sql:/docker-entrypoint-initdb.d/init-scripts/98-webhooks.sql:Z
       - ./volumes/db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:Z
