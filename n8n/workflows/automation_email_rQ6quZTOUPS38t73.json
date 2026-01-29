@@ -1,0 +1,315 @@
+{
+  "updatedAt": "2025-12-12T10:30:48.000Z",
+  "createdAt": "2024-10-24T20:26:24.555Z",
+  "id": "rQ6quZTOUPS38t73",
+  "name": "Automation email",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "5fbf0cd0-233b-4a7b-8e4c-8bd200932ddd",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        592,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://newsapi.org/v2/everything?q=technology&from={{  $now }}&sortBy=publishedAt&language=it",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "244d773046be4a27b6ac74c82314a828"
+            },
+            {}
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "id": "259fc353-fa8f-4e4e-80d2-df14cb216427",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        288
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ppSuAtnReFgQ3oiD",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "91a0c34a-61c7-4a12-97c8-902722728c31",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        512
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "igqCGsHg8vp0q97r",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "70d72b61-f54a-406c-96ca-24f185e13028",
+              "name": "result",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e3dff5ad-3de2-4020-a7bc-233b32f41512",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1760,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "requests_beta"
+      },
+      "id": "5a409962-2714-425a-9665-15c2aaf29c44",
+      "name": "Supabase",
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        512
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "AjfV4ZtpT6LhN0WD",
+          "name": "Supabase Risteco"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2cfcf5ef-d3f2-49f0-ae44-834d147dbb8d",
+              "name": "articles",
+              "value": "={{ $json.articles.map(item => item) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cb0d5404-c631-4d6d-a63b-510f9b728902",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1024,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=",
+        "options": {
+          "systemMessage": "=prendi solo gli articoli di oggi e ieri: {{ $now }} e sintetizzali in italiano il più possibile {{ $json.articles }}"
+        }
+      },
+      "id": "cefe60a1-f174-49cc-8e4c-0261a65ceadd",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        1328,
+        288
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "513617ee-d1bf-48a5-8831-bb0bfc171b78",
+  "activeVersionId": null,
+  "versionCounter": 13,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2024-10-24T20:26:24.567Z",
+      "createdAt": "2024-10-24T20:26:24.567Z",
+      "role": "workflow:owner",
+      "workflowId": "rQ6quZTOUPS38t73",
+      "projectId": "0AmEo4NBEOscZ3Iq",
+      "project": {
+        "updatedAt": "2024-10-14T23:37:33.647Z",
+        "createdAt": "2024-10-14T23:37:33.647Z",
+        "id": "0AmEo4NBEOscZ3Iq",
+        "name": "raffaele lugibello <raffaelelugibello@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "projectRelations": [
+          {
+            "updatedAt": "2024-10-14T23:37:33.649Z",
+            "createdAt": "2024-10-14T23:37:33.649Z",
+            "userId": "92cb5655-bd06-47de-bace-3df5438bc30e",
+            "projectId": "0AmEo4NBEOscZ3Iq",
+            "user": {
+              "updatedAt": "2026-01-29T01:17:22.000Z",
+              "createdAt": "2024-05-22T00:23:19.904Z",
+              "id": "92cb5655-bd06-47de-bace-3df5438bc30e",
+              "email": "raffaelelugibello@gmail.com",
+              "firstName": "raffaele",
+              "lastName": "lugibello",
+              "personalizationAnswers": {
+                "companyType": "personal",
+                "reportedSource": "google",
+                "version": "v4",
+                "personalization_survey_submitted_at": "2024-05-22T01:09:14.581Z",
+                "personalization_survey_n8n_version": "1.41.1"
+              },
+              "settings": {
+                "userActivated": true,
+                "firstSuccessfulWorkflowId": "yaoggJbM3me6df8R",
+                "isOnboarded": true,
+                "userActivatedAt": 1728949053911,
+                "npsSurvey": {
+                  "waitingForResponse": true,
+                  "ignoredCount": 1,
+                  "lastShownAt": 1768926632479
+                },
+                "easyAIWorkflowOnboarded": true
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-01-28",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

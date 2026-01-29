@@ -1,0 +1,513 @@
+{
+  "updatedAt": "2025-03-26T02:16:10.000Z",
+  "createdAt": "2025-03-24T10:40:00.295Z",
+  "id": "pHmd9Uyf7NThRG2X",
+  "name": "Birò",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "model": "openai/o3-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        700,
+        280
+      ],
+      "id": "1236371c-dcfc-4291-a49e-df6792b7f7e7",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "DIaCgMCJChhjSXPT",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        760,
+        80
+      ],
+      "id": "721ac034-2f04-4618-9653-9c2faa11f7f6",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "tableId": "transazioni"
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        300
+      ],
+      "id": "d5d9e698-febf-426f-85fb-ef940ec824fe",
+      "name": "Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "DAj2UqfQGvKuvygI",
+          "name": "Supabase ai money"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.files }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "931fae9a-c691-4959-81ef-c2b20e351993"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dfe5e71e-cad9-4fa7-bdfc-8340897c1ed5",
+                    "leftValue": "={{ $json.files }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        300,
+        0
+      ],
+      "id": "96c9be76-0fa4-4867-b8bb-5371127d285f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "options": {
+          "allowFileUploads": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c2c78a7d-2f36-4007-a1e2-8dd8f7a5bee6",
+      "name": "When chat message received",
+      "webhookId": "155dfd13-9e0e-4b04-b6be-85f95b711c08"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.ocr.space/parse/image",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "K88092906588957"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        580,
+        -100
+      ],
+      "id": "177922ee-b945-49bf-87ed-23398aff74ba",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.data }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "Nome",
+              "description": "dammi il nome del sito",
+              "required": true
+            },
+            {
+              "name": "Descrizione",
+              "description": "A che serve questo sito",
+              "required": true
+            },
+            {
+              "name": "creator",
+              "description": "chio l'ha creato?",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        780,
+        -780
+      ],
+      "id": "2505d972-7199-4a0e-9efb-60897aae934d",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "url": "https://www.risteco.app",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        620,
+        -780
+      ],
+      "id": "e41bd033-ee5d-434b-841b-b7607c17bd80",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "model": "openai/o3-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        740,
+        -540
+      ],
+      "id": "a5023a58-a46f-40a7-9885-9a349b97e153",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "DIaCgMCJChhjSXPT",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        440,
+        -780
+      ],
+      "id": "0303fd46-765b-42c9-bae7-a9ee9ad6e46f",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "model": "openai/o3-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        840,
+        -60
+      ],
+      "id": "7765573e-309b-455f-beea-1501b55d9c7f",
+      "name": "OpenRouter Chat Model2",
+      "credentials": {
+        "openRouterApi": {
+          "id": "DIaCgMCJChhjSXPT",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.ParsedResults[0].ParsedText }}",
+        "options": {
+          "systemMessage": "Stai gestendo le entrare e le uscite di un ristorante, il proprietario ti sta mandando una fattura, devi scorporare i seguenti valori:\nFornitore\nProdotti acquistati con il relativo prezzo\ne inserire questi dati su supabase utilizzando i tool a disposizione"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        820,
+        -300
+      ],
+      "id": "1cb6d361-20fb-4e10-bc32-d54eb972acfe",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Add, get, delete and update data in a table\nricordati che ogni volta che inserisci un dato dai questi valori di base \n id_profiles:43ab1589-b804-4fac-9282-83084e6a25c8\ntype:Uscita",
+        "tableId": "transazioni",
+        "dataToSend": "autoMapInputData",
+        "inputsToIgnore": "="
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        -60
+      ],
+      "id": "6c9e4cb2-be68-40ef-b2b0-c89fea7fab9a",
+      "name": "Supabase1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "DAj2UqfQGvKuvygI",
+          "name": "Supabase ai money"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Supabase": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "c5348209-eecc-4340-892e-16b2799d702d",
+  "activeVersionId": null,
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-03-24T10:40:00.304Z",
+      "createdAt": "2025-03-24T10:40:00.304Z",
+      "role": "workflow:owner",
+      "workflowId": "pHmd9Uyf7NThRG2X",
+      "projectId": "0AmEo4NBEOscZ3Iq",
+      "project": {
+        "updatedAt": "2024-10-14T23:37:33.647Z",
+        "createdAt": "2024-10-14T23:37:33.647Z",
+        "id": "0AmEo4NBEOscZ3Iq",
+        "name": "raffaele lugibello <raffaelelugibello@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "projectRelations": [
+          {
+            "updatedAt": "2024-10-14T23:37:33.649Z",
+            "createdAt": "2024-10-14T23:37:33.649Z",
+            "userId": "92cb5655-bd06-47de-bace-3df5438bc30e",
+            "projectId": "0AmEo4NBEOscZ3Iq",
+            "user": {
+              "updatedAt": "2026-01-29T01:17:22.000Z",
+              "createdAt": "2024-05-22T00:23:19.904Z",
+              "id": "92cb5655-bd06-47de-bace-3df5438bc30e",
+              "email": "raffaelelugibello@gmail.com",
+              "firstName": "raffaele",
+              "lastName": "lugibello",
+              "personalizationAnswers": {
+                "companyType": "personal",
+                "reportedSource": "google",
+                "version": "v4",
+                "personalization_survey_submitted_at": "2024-05-22T01:09:14.581Z",
+                "personalization_survey_n8n_version": "1.41.1"
+              },
+              "settings": {
+                "userActivated": true,
+                "firstSuccessfulWorkflowId": "yaoggJbM3me6df8R",
+                "isOnboarded": true,
+                "userActivatedAt": 1728949053911,
+                "npsSurvey": {
+                  "waitingForResponse": true,
+                  "ignoredCount": 1,
+                  "lastShownAt": 1768926632479
+                },
+                "easyAIWorkflowOnboarded": true
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-01-28",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

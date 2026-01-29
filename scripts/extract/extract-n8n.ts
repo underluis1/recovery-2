@@ -80,8 +80,11 @@ export async function extractN8nWorkflows() {
         const fullWorkflow = await n8nClient.get(`/workflows/${workflow.id}`);
         const workflowData = fullWorkflow.data;
 
+        // Get workflow name from data (prioritize fullWorkflow data)
+        const workflowName = workflowData.name || workflow.name || `workflow_${workflow.id}`;
+
         // Sanitize filename
-        const sanitizedName = workflow.name
+        const sanitizedName = workflowName
           .replace(/[^a-z0-9]/gi, '_')
           .toLowerCase();
 
@@ -96,10 +99,11 @@ export async function extractN8nWorkflows() {
         );
 
         savedWorkflows.push(filename);
-        logger.info(`  ✓ ${workflow.name} (${workflow.active ? 'active' : 'inactive'})`);
+        logger.info(`  ✓ ${workflowName} (${workflowData.active ? 'active' : 'inactive'})`);
 
       } catch (error: any) {
-        logger.error(`  ✗ Failed to save ${workflow.name}: ${error.message}`);
+        const workflowName = workflow.name || `workflow_${workflow.id}`;
+        logger.error(`  ✗ Failed to save ${workflowName}: ${error.message}`);
       }
     }
 

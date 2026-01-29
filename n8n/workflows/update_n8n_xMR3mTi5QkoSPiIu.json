@@ -1,0 +1,244 @@
+{
+  "updatedAt": "2025-07-10T23:52:10.000Z",
+  "createdAt": "2025-07-10T22:39:07.909Z",
+  "id": "xMR3mTi5QkoSPiIu",
+  "name": "update n8n",
+  "description": null,
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://n8n.raffaelelugibello.it/rest/settings",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "id": "186d9ba0-f53e-4979-adcc-50674c076199",
+      "name": "Get Local n8n version",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        440,
+        0
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 5
+            }
+          ]
+        }
+      },
+      "id": "1738885e-31f8-41ac-8376-0354533372b2",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "command": "=echo \"{{ $prevNode.outputIndex ? false : true }}\" > check_update.txt",
+        "cwd": "n8n-docker-caddy/"
+      },
+      "id": "6046bd1b-0519-4ea0-bf22-5bda4c38e657",
+      "name": "SSH1",
+      "type": "n8n-nodes-base.ssh",
+      "position": [
+        1000,
+        0
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "sshPassword": {
+          "id": "bbmSxt6bnw9wSvl1",
+          "name": "SSH Password account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://registry.npmjs.org/n8n/latest",
+        "options": {
+          "fullResponse": false
+        }
+      },
+      "id": "0199f49a-cda4-4115-8416-5e28de1b2ae0",
+      "name": "Get the latest n8n version",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        220,
+        0
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "a2d169a3-7aa2-46f5-bdb2-f0d53a011b5c",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              },
+              "leftValue": "={{ $('Get the latest n8n version').item.json.version }}",
+              "rightValue": "={{ $json.data.versionCli }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0912221e-82de-4d39-8326-0394f9a15004",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        660,
+        0
+      ],
+      "typeVersion": 2.2,
+      "alwaysOutputData": false
+    }
+  ],
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "SSH1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "SSH1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get the latest n8n version",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Local n8n version": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get the latest n8n version": {
+      "main": [
+        [
+          {
+            "node": "Get Local n8n version",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "a4bf473b-1e48-4f1b-b5f1-929794d0b057",
+  "activeVersionId": null,
+  "versionCounter": 1,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-07-10T22:39:07.913Z",
+      "createdAt": "2025-07-10T22:39:07.913Z",
+      "role": "workflow:owner",
+      "workflowId": "xMR3mTi5QkoSPiIu",
+      "projectId": "0AmEo4NBEOscZ3Iq",
+      "project": {
+        "updatedAt": "2024-10-14T23:37:33.647Z",
+        "createdAt": "2024-10-14T23:37:33.647Z",
+        "id": "0AmEo4NBEOscZ3Iq",
+        "name": "raffaele lugibello <raffaelelugibello@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "projectRelations": [
+          {
+            "updatedAt": "2024-10-14T23:37:33.649Z",
+            "createdAt": "2024-10-14T23:37:33.649Z",
+            "userId": "92cb5655-bd06-47de-bace-3df5438bc30e",
+            "projectId": "0AmEo4NBEOscZ3Iq",
+            "user": {
+              "updatedAt": "2026-01-29T01:17:22.000Z",
+              "createdAt": "2024-05-22T00:23:19.904Z",
+              "id": "92cb5655-bd06-47de-bace-3df5438bc30e",
+              "email": "raffaelelugibello@gmail.com",
+              "firstName": "raffaele",
+              "lastName": "lugibello",
+              "personalizationAnswers": {
+                "companyType": "personal",
+                "reportedSource": "google",
+                "version": "v4",
+                "personalization_survey_submitted_at": "2024-05-22T01:09:14.581Z",
+                "personalization_survey_n8n_version": "1.41.1"
+              },
+              "settings": {
+                "userActivated": true,
+                "firstSuccessfulWorkflowId": "yaoggJbM3me6df8R",
+                "isOnboarded": true,
+                "userActivatedAt": 1728949053911,
+                "npsSurvey": {
+                  "waitingForResponse": true,
+                  "ignoredCount": 1,
+                  "lastShownAt": 1768926632479
+                },
+                "easyAIWorkflowOnboarded": true
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-01-28",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

@@ -1,0 +1,131 @@
+{
+  "updatedAt": "2025-07-06T15:32:30.023Z",
+  "createdAt": "2025-07-06T15:32:30.023Z",
+  "id": "rxquCMxhFQyy0v2y",
+  "name": "My workflow 24",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "35485d66-bcfc-4a3f-a843-34693ce31814",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        220,
+        0
+      ],
+      "id": "1ff756ae-2489-4e86-a630-fbc490da03b9",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "o4tfeUjxFl1dEtq1",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "a296a89f-c911-48cd-b4e9-d2f308c292b3",
+  "activeVersionId": null,
+  "versionCounter": 1,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-07-06T15:32:30.033Z",
+      "createdAt": "2025-07-06T15:32:30.033Z",
+      "role": "workflow:owner",
+      "workflowId": "rxquCMxhFQyy0v2y",
+      "projectId": "0AmEo4NBEOscZ3Iq",
+      "project": {
+        "updatedAt": "2024-10-14T23:37:33.647Z",
+        "createdAt": "2024-10-14T23:37:33.647Z",
+        "id": "0AmEo4NBEOscZ3Iq",
+        "name": "raffaele lugibello <raffaelelugibello@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "projectRelations": [
+          {
+            "updatedAt": "2024-10-14T23:37:33.649Z",
+            "createdAt": "2024-10-14T23:37:33.649Z",
+            "userId": "92cb5655-bd06-47de-bace-3df5438bc30e",
+            "projectId": "0AmEo4NBEOscZ3Iq",
+            "user": {
+              "updatedAt": "2026-01-29T01:17:22.000Z",
+              "createdAt": "2024-05-22T00:23:19.904Z",
+              "id": "92cb5655-bd06-47de-bace-3df5438bc30e",
+              "email": "raffaelelugibello@gmail.com",
+              "firstName": "raffaele",
+              "lastName": "lugibello",
+              "personalizationAnswers": {
+                "companyType": "personal",
+                "reportedSource": "google",
+                "version": "v4",
+                "personalization_survey_submitted_at": "2024-05-22T01:09:14.581Z",
+                "personalization_survey_n8n_version": "1.41.1"
+              },
+              "settings": {
+                "userActivated": true,
+                "firstSuccessfulWorkflowId": "yaoggJbM3me6df8R",
+                "isOnboarded": true,
+                "userActivatedAt": 1728949053911,
+                "npsSurvey": {
+                  "waitingForResponse": true,
+                  "ignoredCount": 1,
+                  "lastShownAt": 1768926632479
+                },
+                "easyAIWorkflowOnboarded": true
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-01-28",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

@@ -1,0 +1,164 @@
+{
+  "updatedAt": "2024-05-26T22:45:51.000Z",
+  "createdAt": "2024-05-26T22:26:29.516Z",
+  "id": "yaoggJbM3me6df8R",
+  "name": "Test Supabase call",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://nmwxdizjqydyzryydbnk.supabase.co/rest/v1/profiles",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5td3hkaXpqcXlkeXpyeXlkYm5rIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwOTk1MjkzMSwiZXhwIjoyMDI1NTI4OTMxfQ.Tk1abVXvAh7oPCBTmj7stuuwezgPupeWeubBGhm_y2o"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5td3hkaXpqcXlkeXpyeXlkYm5rIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwOTk1MjkzMSwiZXhwIjoyMDI1NTI4OTMxfQ.Tk1abVXvAh7oPCBTmj7stuuwezgPupeWeubBGhm_y2o"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b54d4de4-1825-4faa-8ecf-6abbf3ddbce1",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        780,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"myField\": \"value\",\n   \"asdasd:\": \"f8bf0b46-8618-4b8b-8432-c31f60e3f221\"\n}  ",
+        "options": {}
+      },
+      "id": "86509b6c-ff13-4968-b1a1-32df0d6ab31a",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "path": "92614f3f-dee2-4a2f-af4f-c006285d249a",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "2fdf6465-71c7-4240-963d-a548a9a0e06f",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        580,
+        280
+      ],
+      "webhookId": "92614f3f-dee2-4a2f-af4f-c006285d249a"
+    }
+  ],
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "c57eadbf-6d4a-47aa-8e1d-7897a541358b",
+  "activeVersionId": null,
+  "versionCounter": 1,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2024-05-26T22:26:29.529Z",
+      "createdAt": "2024-05-26T22:26:29.529Z",
+      "role": "workflow:owner",
+      "workflowId": "yaoggJbM3me6df8R",
+      "projectId": "0AmEo4NBEOscZ3Iq",
+      "project": {
+        "updatedAt": "2024-10-14T23:37:33.647Z",
+        "createdAt": "2024-10-14T23:37:33.647Z",
+        "id": "0AmEo4NBEOscZ3Iq",
+        "name": "raffaele lugibello <raffaelelugibello@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "projectRelations": [
+          {
+            "updatedAt": "2024-10-14T23:37:33.649Z",
+            "createdAt": "2024-10-14T23:37:33.649Z",
+            "userId": "92cb5655-bd06-47de-bace-3df5438bc30e",
+            "projectId": "0AmEo4NBEOscZ3Iq",
+            "user": {
+              "updatedAt": "2026-01-29T01:17:22.000Z",
+              "createdAt": "2024-05-22T00:23:19.904Z",
+              "id": "92cb5655-bd06-47de-bace-3df5438bc30e",
+              "email": "raffaelelugibello@gmail.com",
+              "firstName": "raffaele",
+              "lastName": "lugibello",
+              "personalizationAnswers": {
+                "companyType": "personal",
+                "reportedSource": "google",
+                "version": "v4",
+                "personalization_survey_submitted_at": "2024-05-22T01:09:14.581Z",
+                "personalization_survey_n8n_version": "1.41.1"
+              },
+              "settings": {
+                "userActivated": true,
+                "firstSuccessfulWorkflowId": "yaoggJbM3me6df8R",
+                "isOnboarded": true,
+                "userActivatedAt": 1728949053911,
+                "npsSurvey": {
+                  "waitingForResponse": true,
+                  "ignoredCount": 1,
+                  "lastShownAt": 1768926632479
+                },
+                "easyAIWorkflowOnboarded": true
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-01-28",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": null
+}

@@ -37,3 +37,10 @@ Thumbs.db
 tmp/
 temp/
 *.tmp
+
+# n8n workflows con secrets (esclusi dal versioning)
+n8n/workflows/ai_gratis_chat_*.json
+n8n/workflows/crea_video_ai_*.json
+n8n/workflows/my_workflow_40_*.json
+n8n/workflows/risteco___get_business_info_v2_*.json
+n8n/workflows/autoupdate_project_articles_salento_*.json

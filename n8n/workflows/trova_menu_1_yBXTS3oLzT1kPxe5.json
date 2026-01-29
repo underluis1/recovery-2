@@ -1,0 +1,347 @@
+{
+  "updatedAt": "2024-06-26T17:39:41.000Z",
+  "createdAt": "2024-06-26T17:32:19.051Z",
+  "id": "yBXTS3oLzT1kPxe5",
+  "name": "TROVA MENU 1",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "dd727aa8-da58-435c-9093-6c266181baa4",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        460,
+        320
+      ],
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "menu",
+        "returnAll": true,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "profiles_id",
+              "condition": "eq",
+              "keyValue": "={{ $json.profiles_id }}"
+            }
+          ]
+        }
+      },
+      "id": "3ba321af-3649-46eb-92ec-29a073922e2f",
+      "name": "Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        680,
+        320
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "DyF80fsCycRfvlb3",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "713d26ce-3ec4-4072-8683-3cf330e93029",
+              "name": "response",
+              "value": "=nomi menu: {{ $json.name }} & id menu:{{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9736969c-def8-47d4-ad8b-1e134d190964",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1120,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "name"
+            },
+            {
+              "fieldToAggregate": "id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a80082a2-bc31-4126-b751-82d86ecfdd80",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        900,
+        320
+      ]
+    }
+  ],
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Execute Workflow Trigger": [
+      {
+        "json": {
+          "query": "",
+          "profiles_id": "6ffb2b67-c543-4fe8-9104-5e9072cf5b63"
+        }
+      }
+    ]
+  },
+  "versionId": "ca997c6e-1be6-4e91-861c-4b9e23750569",
+  "activeVersionId": "ca997c6e-1be6-4e91-861c-4b9e23750569",
+  "versionCounter": 4,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-06-26T17:32:19.054Z",
+      "createdAt": "2024-06-26T17:32:19.054Z",
+      "role": "workflow:owner",
+      "workflowId": "yBXTS3oLzT1kPxe5",
+      "projectId": "0AmEo4NBEOscZ3Iq",
+      "project": {
+        "updatedAt": "2024-10-14T23:37:33.647Z",
+        "createdAt": "2024-10-14T23:37:33.647Z",
+        "id": "0AmEo4NBEOscZ3Iq",
+        "name": "raffaele lugibello <raffaelelugibello@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "projectRelations": [
+          {
+            "updatedAt": "2024-10-14T23:37:33.649Z",
+            "createdAt": "2024-10-14T23:37:33.649Z",
+            "userId": "92cb5655-bd06-47de-bace-3df5438bc30e",
+            "projectId": "0AmEo4NBEOscZ3Iq",
+            "user": {
+              "updatedAt": "2026-01-29T01:17:22.000Z",
+              "createdAt": "2024-05-22T00:23:19.904Z",
+              "id": "92cb5655-bd06-47de-bace-3df5438bc30e",
+              "email": "raffaelelugibello@gmail.com",
+              "firstName": "raffaele",
+              "lastName": "lugibello",
+              "personalizationAnswers": {
+                "companyType": "personal",
+                "reportedSource": "google",
+                "version": "v4",
+                "personalization_survey_submitted_at": "2024-05-22T01:09:14.581Z",
+                "personalization_survey_n8n_version": "1.41.1"
+              },
+              "settings": {
+                "userActivated": true,
+                "firstSuccessfulWorkflowId": "yaoggJbM3me6df8R",
+                "isOnboarded": true,
+                "userActivatedAt": 1728949053911,
+                "npsSurvey": {
+                  "waitingForResponse": true,
+                  "ignoredCount": 1,
+                  "lastShownAt": 1768926632479
+                },
+                "easyAIWorkflowOnboarded": true
+              },
+              "disabled": false,
+              "mfaEnabled": false,
+              "lastActiveAt": "2026-01-28",
+              "isPending": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tags": [],
+  "activeVersion": {
+    "updatedAt": "2025-12-09T16:31:40.681Z",
+    "createdAt": "2025-12-09T16:31:40.681Z",
+    "versionId": "ca997c6e-1be6-4e91-861c-4b9e23750569",
+    "workflowId": "yBXTS3oLzT1kPxe5",
+    "nodes": [
+      {
+        "parameters": {},
+        "id": "dd727aa8-da58-435c-9093-6c266181baa4",
+        "name": "Execute Workflow Trigger",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1,
+        "position": [
+          460,
+          320
+        ],
+        "notesInFlow": true
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "tableId": "menu",
+          "returnAll": true,
+          "filters": {
+            "conditions": [
+              {
+                "keyName": "profiles_id",
+                "condition": "eq",
+                "keyValue": "={{ $json.profiles_id }}"
+              }
+            ]
+          }
+        },
+        "id": "3ba321af-3649-46eb-92ec-29a073922e2f",
+        "name": "Supabase",
+        "type": "n8n-nodes-base.supabase",
+        "typeVersion": 1,
+        "position": [
+          680,
+          320
+        ],
+        "credentials": {
+          "supabaseApi": {
+            "id": "DyF80fsCycRfvlb3",
+            "name": "Supabase account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "713d26ce-3ec4-4072-8683-3cf330e93029",
+                "name": "response",
+                "value": "=nomi menu: {{ $json.name }} & id menu:{{ $json.id }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "9736969c-def8-47d4-ad8b-1e134d190964",
+        "name": "Edit Fields",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.3,
+        "position": [
+          1120,
+          320
+        ]
+      },
+      {
+        "parameters": {
+          "fieldsToAggregate": {
+            "fieldToAggregate": [
+              {
+                "fieldToAggregate": "name"
+              },
+              {
+                "fieldToAggregate": "id"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "a80082a2-bc31-4126-b751-82d86ecfdd80",
+        "name": "Aggregate",
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          900,
+          320
+        ]
+      }
+    ],
+    "connections": {
+      "Execute Workflow Trigger": {
+        "main": [
+          [
+            {
+              "node": "Supabase",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Supabase": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  }
+}
