@@ -1,0 +1,29 @@
+# Supabase Edge Functions
+
+Questa cartella contiene le Edge Functions estratte da Supabase Cloud.
+
+Le functions vengono create automaticamente quando esegui:
+```bash
+npm run extract:supabase
+```
+
+## Struttura
+
+Ogni function ha la sua cartella:
+```
+functions/
+├── function-name-1/
+│   ├── index.ts          # Codice della function
+│   └── metadata.json     # Metadata (import map, etc.)
+├── function-name-2/
+│   ├── index.ts
+│   └── metadata.json
+└── manifest.json         # Lista di tutte le functions
+```
+
+## Deploy
+
+Durante il deployment, le functions vengono:
+- Create se non esistono
+- Aggiornate se esistono già
+- Deployate su Supabase self-hosted

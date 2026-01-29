@@ -8,13 +8,18 @@ export interface Config {
   environment: Environment;
   supabase: {
     projectId: string;
-    dbUrl: string;
+    projectRef: string;
+    dbUrl: string;              // Transaction Pooler URL (port 6543)
+    dbDirectUrl: string;        // Direct connection URL (port 5432) - per pg_dump
     accessToken: string;
     apiUrl: string;
+    anonKey?: string;
+    serviceRoleKey?: string;
   };
   n8n: {
     apiUrl: string;
     apiKey: string;
+    webhookUrl?: string;
   };
   server?: {
     host: string;
@@ -43,13 +48,18 @@ export function loadConfig(env: Environment): Config {
     environment: env,
     supabase: {
       projectId: process.env.SUPABASE_PROJECT_ID || '',
+      projectRef: process.env.SUPABASE_PROJECT_REF || '',
       dbUrl: process.env.SUPABASE_DB_URL || '',
+      dbDirectUrl: process.env.SUPABASE_DB_DIRECT_URL || process.env.SUPABASE_DB_URL || '',
       accessToken: process.env.SUPABASE_ACCESS_TOKEN || '',
       apiUrl: process.env.SUPABASE_API_URL || '',
+      anonKey: process.env.SUPABASE_ANON_KEY,
+      serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     },
     n8n: {
       apiUrl: process.env.N8N_API_URL || '',
       apiKey: process.env.N8N_API_KEY || '',
+      webhookUrl: process.env.N8N_WEBHOOK_URL,
     },
   };
 
@@ -73,6 +83,7 @@ function validateConfig(config: Config) {
 
   if (!config.supabase.projectId) errors.push('SUPABASE_PROJECT_ID');
   if (!config.supabase.dbUrl) errors.push('SUPABASE_DB_URL');
+  if (!config.supabase.dbDirectUrl) errors.push('SUPABASE_DB_DIRECT_URL');
   if (!config.n8n.apiUrl) errors.push('N8N_API_URL');
   if (!config.n8n.apiKey) errors.push('N8N_API_KEY');
 
