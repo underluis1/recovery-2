@@ -6,7 +6,7 @@ version: '3.8'
 services:
   # PostgreSQL per Supabase
   postgres:
-    image: supabase/postgres:15.1.0.117
+    image: supabase/postgres:15.8.1.085
     container_name: supabase-db
     restart: unless-stopped
     ports:
@@ -24,7 +24,7 @@ services:
 
   # Supabase Studio
   supabase-studio:
-    image: supabase/studio:20231123-64a766c
+    image: supabase/studio:2026.01.27-sha-6aa59ff
     container_name: supabase-studio
     restart: unless-stopped
     ports:
